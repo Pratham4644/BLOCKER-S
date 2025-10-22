@@ -1,432 +1,242 @@
-# 🚀 CodeSahayak - AI Coding Mentor for Indian Students
-
-> **CodeSahayak** (कोडसहायक) - Your AI-powered coding mentor that speaks Marathi-English and orchestrates multiple tools automatically
-
-## 🎯 Problem Statement
-
-Indian CS students face **two major challenges**:
-1. **Language Barrier**: Most coding resources are in English-only, making learning harder for regional language speakers
-2. **Tool Fragmentation**: Students juggle between GitHub, Notion, Gmail, Calendar, and Slack - wasting time on manual coordination
-
-**Impact**: 10M+ CS students in India struggle with inefficient learning workflows and language barriers.
+# 🧩 CodeSahayak – Friction Log  
+*By Prathamesh Shinde (Solo Developer)*  
+*Hackathon Duration: 3 Days | Goal: ₹1,00,000 Prize + Internship*
 
 ---
 
-## 💡 Our Solution
+## 🌅 Day 1 – The Foundation & The First Wall
 
-**CodeSahayak** is an AI-powered coding mentor that:
-- 🗣️ Provides feedback in **Marathi-English mix** (code-switched communication)
-- 🤖 Uses **AI-powered code analysis** for instant reviews
-- 🔗 **Orchestrates 6+ tools automatically** (GitHub → Analysis → Notion → Email → Calendar → Slack)
-- 🎤 Supports **voice commands** (Hindi/Marathi + English)
-- 📊 Tracks learning progress automatically
+**Morning – 9:00 AM**
 
----
+Excited, nervous, and slightly overwhelmed.  
+I started with what looked like a simple goal: *get the environment running.*  
 
-## ✨ Key Features
-
-### 1. 🧠 AI Code Analysis
-- Deep learning-based code review using GPT-4o-mini
-- Identifies bugs, complexity issues, and optimization opportunities
-- Provides feedback in simple Marathi-English mix
-
-### 2. 🔗 Multi-Tool Orchestration (Powered by Composio)
-Automatically coordinates:
-- **GitHub**: Fetch code, create issues, track commits
-- **Notion**: Save analysis, maintain learning journal
-- **Gmail**: Send progress updates and reminders
-- **Google Calendar**: Schedule practice sessions
-- **Slack**: Team notifications
-- **WhatsApp**: Mobile alerts (optional)
-
-### 3. 🗣️ Voice Interface
-- Voice input using Whisper (supports Hindi/Marathi/English)
-- Voice output using ElevenLabs TTS
-- Natural code-switched conversations
-
-### 4. 📊 Progress Tracking
-- Automated learning analytics
-- Code quality trends over time
-- Personalized improvement suggestions
-
----
-
-## 🛠️ Tech Stack
-
-| Component | Technology |
-|-----------|------------|
-| **AI/LLM** | OpenAI GPT-4o-mini via OpenRouter |
-| **Orchestration** | Composio Tool Router |
-| **Framework** | LangChain |
-| **Voice (STT)** | Whisper |
-| **Voice (TTS)** | ElevenLabs |
-| **Integrations** | GitHub, Notion, Gmail, Calendar, Slack, WhatsApp |
-| **Language** | Python 3.11+ |
-| **Email** | SMTP (Gmail App Password) |
-
----
-
-## 📁 Project Structure
+Everything was supposed to be easy — clone repo, run setup, and get started.  
+But within an hour, the terminal turned red with the classic Python import nightmare:
 
 ```
-codesahayak/
-├── README.md
-├── requirements.txt
-├── .env.example
-├── .gitignore
-├── friction_log.md
-├── demo/
-│   └── demo_video.mp4
-├── src/
-│   ├── __init__.py
-│   ├── main.py                 # Main agent orchestrator
-│   ├── agents/
-│   │   ├── __init__.py
-│   │   ├── voice_agent.py      # Voice input/output handler
-│   │   ├── code_analyzer.py    # Code review agent
-│   │   ├── learning_manager.py # Progress tracking agent
-│   │   └── coordinator.py      # Multi-tool orchestrator
-│   ├── tools/
-│   │   ├── __init__.py
-│   │   └── composio_tools.py   # Composio Tool Router integration
-│   ├── utils/
-│   │   ├── __init__.py
-│   │   ├── voice_utils.py      # Whisper + ElevenLabs
-│   │   └── code_parser.py      # AST parsing utilities
-│   └── config/
-│       ├── __init__.py
-│       └── settings.py         # Configuration management
-└── tests/
-    ├── __init__.py
-    ├── test_voice.py
-    ├── test_analyzer.py
-    └── test_workflow.py
+ModuleNotFoundError: No module named 'composio_langchain'
 ```
 
----
+At first, I thought it was a typo. Then I realized — the dependency tree had changed in the latest version.
 
-## 🚀 Quick Start
+I went through `pip install`, `pip freeze`, `python -m pip install --upgrade`, even reinstalled my venv.  
+Nothing.
 
-### Prerequisites
-
-- Python 3.11 or higher
-- Git
-- OpenAI API key (via OpenRouter)
-- Composio account
-- Gmail account (for SMTP)
-
-### Installation
-
-1. **Clone the repository**
-```bash
-git clone https://github.com/yourusername/codesahayak.git
-cd codesahayak
-```
-
-2. **Create virtual environment**
-```bash
-python -m venv venv
-
-# On Windows
-.\venv\Scripts\activate
-
-# On Mac/Linux
-source venv/bin/activate
-```
-
-3. **Install dependencies**
-```bash
-pip install -r requirements.txt
-```
-
-4. **Setup environment variables**
-```bash
-cp .env.example .env
-# Edit .env with your API keys
-```
-
-5. **Configure API Keys**
-
-Edit `.env` file:
-```properties
-# Required
-OPENAI_API_KEY=sk-or-v1-your-key-here
-OPENAI_API_BASE=https://openrouter.ai/api/v1
-COMPOSIO_API_KEY=ak_your-composio-key
-
-# For real emails
-GMAIL_SMTP_EMAIL=your-email@gmail.com
-GMAIL_APP_PASSWORD=your-16-char-app-password
-
-# GitHub
-GITHUB_TOKEN=ghp_your-github-token
-
-# Optional
-ELEVENLABS_API_KEY=your-elevenlabs-key
-NOTION_API_KEY=secret_your-notion-key
-SLACK_BOT_TOKEN=xoxb-your-slack-token
-```
-
-6. **Run the demo**
-```bash
-python src/main.py
-```
-
----
-
-## 🎬 Usage Examples
-
-### Example 1: Analyze Code
-
+Then I took a deep breath, went through the docs, and realized — the latest version used **`provider`** instead of the old **`toolset`** naming.  
+So I replaced:
 ```python
-from src.agents.code_analyzer import CodeAnalyzer
+from composio_langchain import ComposioToolSet
+```
+with:
+```python
+from composio_langchain.provider import LangchainProvider as ComposioToolSet
+```
+and finally saw it —  
+✅ “Import success!”
 
-analyzer = CodeAnalyzer()
-code = """
+That moment — one print statement — felt like a small win in a long marathon.
+
+---
+
+**Afternoon – 1:00 PM**
+
+The next wall came with **Composio OAuth setup**.  
+Redirect URLs weren’t matching, and authentication kept failing.  
+I double-checked console logs, regenerated API keys, and even wrote to Composio’s Discord (no reply).  
+
+Finally, after manually copying the callback from my local dev server into the Composio dashboard, the green tick appeared —  
+> “Integration connected successfully.”
+
+It felt magical. I noted it down instantly in my notebook:
+> “Never copy blindly. Read your redirect URLs twice.”
+
+---
+
+**Evening – 5:00 PM**
+
+I moved to the **voice agent** setup — my dream part of CodeSahayak.  
+Combining Marathi and English voice commands was personal.  
+But Whisper didn’t agree.
+
+Marathi-English hybrid sentences confused the model:
+> “Hello, मी Prathamesh आहे”  
+came out as  
+> “Hello, meet Prathamesh at?”
+
+I laughed and nearly gave up, but then realized — I could preprocess the text and pass context.  
+By adding a language hint and cleaning the transcripts before ElevenLabs TTS, it suddenly clicked.
+
+The first time I heard my AI say,  
+> “नमस्कार, मी तुझा कोड चेक करतो!”  
+I froze for a second.  
+That wasn’t just AI — it was my dream speaking back to me.
+
+**✅ Day 1 Goal Achieved:**  
+Core infrastructure working.  
+Tools connected. Voice alive.  
+
+But I was exhausted — both mentally and emotionally.  
+Still, one line in my plan echoed in my mind:  
+> “Working > perfect.”
+
+---
+
+## ⚙️ Day 2 – The Storm of Bugs
+
+**Morning – 9:00 AM**
+
+Started fresh, confident — but within an hour, chaos returned.  
+My **code analyzer** wasn’t analyzing anything.
+
+AST parsing was breaking with nested loops and recursion.  
+I wrote this tiny buggy test:
+```python
 def bubble_sort(arr):
-    n = len(arr)
-    for i in range(n):
-        for j in range(0, n-i-1):
-            if arr[j] > arr[j+1]:
+    for i in range(len(arr)):
+        for j in range(len(arr)-i):  # Bug
+            if arr[j] < arr[j+1]:    # Bug
                 arr[j], arr[j+1] = arr[j+1], arr[j]
-    return arr
-"""
-
-analysis = analyzer.analyze(code, language="python")
-print(analysis)
+    return ar  # Typo
 ```
 
-**Output:**
+Instead of catching the bugs, my analyzer crashed.  
+Syntax trees were throwing errors because of missing edge-case handling.
+
+I realized — I’d been trying to make the AI too smart, too soon.  
+So I simplified the logic:  
+1. Use AST for structure.  
+2. Use rule-based checks for common mistakes.  
+3. Generate English + Marathi feedback via prompt templates.
+
+Finally, it worked.  
+For the first time, CodeSahayak detected bugs and responded with:
+> “तुझ्या कोडमध्ये एक छोटासा bug आहे — loop condition चुकीचा आहे!”
+
+That line made the sleepless night worth it.
+
+---
+
+**Afternoon – 2:30 PM**
+
+Then came **multi-tool orchestration**.  
+Linking GitHub → Notion → Calendar → Gmail → Slack → WhatsApp.
+
+Each one had its own API quirks.  
+Gmail blocked less secure access, Slack needed tokens, WhatsApp API demanded approval.  
+Everything was screaming “time waste” — but I couldn’t give up.
+
+So I prioritized:
+> Focus on the 4 that work reliably.  
+> Mock the rest.
+
+I created a dummy workflow:
 ```
-Code Quality: 8/10
-तुझा code चांगला आहे! Bubble sort correctly implemented आहे.
+GitHub → Analysis → Notion → Calendar → Gmail
+```
+And hardcoded sample data for Slack/WhatsApp to simulate success.
 
-Bugs Found: None
+Lesson learned:
+> “A working demo beats a broken perfection.”
 
-Time Complexity: O(n²)
-Nested loops वापरल्यामुळे complexity O(n²) आहे.
+---
 
-Suggestions:
-- Performance improve करायचा असेल तर quicksort वापर
-- Variable names descriptive ठेवा
+**Evening – 7:00 PM**
+
+By nightfall, my code was running… slowly.  
+Every run took 15+ seconds.  
+Debugging felt like chasing ghosts.
+
+I found out — every tool call was blocking. So I refactored using async calls.  
+Then, finally, the orchestration clicked.
+
+My console printed the line I’d been waiting for:
+```
+✅ Workflow Complete: GitHub → Analysis → Notion → Calendar → Gmail
 ```
 
-### Example 2: Complete Workflow
+I leaned back, smiled, and said to myself:
+> “We’re getting there, bro.”
 
+---
+
+## 🎥 Day 3 – The Final Push
+
+**Morning – 8:30 AM**
+
+My laptop fan was louder than me now.  
+Screen recording, debugging, rendering — all happening at once.  
+I was preparing the **demo video** — a 2-minute summary of three days of madness.
+
+But every time I hit “record,” something crashed.  
+Either the voice agent wouldn’t respond, or OBS lagged, or Notion API timed out.
+
+I almost gave up.
+
+Then I remembered what my senior teammate Claude wrote at the bottom of the action plan:  
+> “Don’t perfectionism. Working > perfect.”
+
+So I took a shortcut —  
+recorded a stable run, added subtitles, and voice-dubbed Marathi-English lines manually.  
+When I saw it stitched together, it looked… real.  
+Authentic. Functional. Alive.
+
+---
+
+**Afternoon – 2:00 PM**
+
+I wrote the final README, added all links, and started the last round of testing.  
+That’s when I hit the **CORS wall** connecting my backend to the new HTML/JS UI.
+
+Frontend `fetch()` was blocked.  
+Browser screamed:  
+```
+Access to fetch at 'http://127.0.0.1:5000/api/analyze' from origin 'null' has been blocked by CORS policy.
+```
+
+At this point, I just sighed.  
+Installed `flask-cors`, added:
 ```python
-from src.agents.coordinator import WorkflowCoordinator
-
-coordinator = WorkflowCoordinator()
-
-# Analyze code from GitHub and orchestrate all tools
-coordinator.run_workflow(
-    github_owner="yourusername",
-    github_repo="dsa-practice",
-    file_path="sorting/bubble_sort.py",
-    user_email="student@example.com"
-)
+from flask_cors import CORS
+CORS(app)
 ```
+and like magic — it worked.
 
-**What happens:**
-1. ✅ Fetches code from GitHub
-2. ✅ AI analyzes the code
-3. ✅ Sends email with analysis
-4. ✅ Saves to Notion database
-5. ✅ Creates calendar reminder
-6. ✅ Posts to Slack channel
-
-### Example 3: Voice Command (Coming Soon)
-
-```python
-from src.agents.voice_agent import VoiceAgent
-
-agent = VoiceAgent()
-
-# Voice input: "Hey Buddy, मझा bubble sort code check कर"
-response = agent.process_voice_command()
-```
+The UI sent requests, backend responded, and CodeSahayak spoke.
 
 ---
 
-## 🎥 Demo Video
+**Evening – 5:30 PM**
 
-Check out our 2-minute demo video: [Watch Demo](demo/demo_video.mp4)
-
-**Demo showcases:**
-- Real-time code analysis in Marathi-English
-- Multi-tool orchestration (6 tools in 1 workflow)
-- Automated progress tracking
-- Email and Notion integration
+Final submission checklist.  
+I reread my friction log, smiled at the chaos, and realized something:
+> Every failure taught me something the docs never could.
 
 ---
 
-## 🧪 Testing
+## 💡 Reflections
 
-Run tests:
-```bash
-# All tests
-pytest tests/
-
-# Specific test
-pytest tests/test_analyzer.py
-
-# With coverage
-pytest --cov=src tests/
-```
+- **Biggest Friction:** OAuth integrations and async orchestration  
+- **Hardest Moment:** When Whisper misread Marathi-English commands  
+- **Most Emotional Win:** Hearing my AI say “नमस्कार” for the first time  
+- **Best Lesson:** “When in doubt, simplify the problem.”  
+- **Realization:** Hackathons aren’t about code — they’re about patience, resilience, and tiny victories.
 
 ---
 
-## 🔧 Configuration
+## 🏁 Final Thoughts
 
-### Gmail SMTP Setup (for real emails)
+After three sleepless nights, crashes, and coffee refills,  
+I didn’t just build an AI tool —  
+I built a story, a voice, a small spark for Indian students who want to learn coding in their own language.
 
-1. Enable 2-Step Verification: https://myaccount.google.com/security
-2. Generate App Password: https://myaccount.google.com/apppasswords
-3. Add to `.env`:
-```
-GMAIL_SMTP_EMAIL=your-email@gmail.com
-GMAIL_APP_PASSWORD=your-16-char-password
-```
+CodeSahayak isn’t just a project.  
+It’s a promise —  
+> That language should never be a barrier to learning.
 
-### Composio Setup
-
-1. Sign up at: https://app.composio.dev
-2. Get API key from dashboard
-3. Connect apps: GitHub, Notion, Gmail, Calendar, Slack
-4. Add API key to `.env`
+And no error log, OAuth failure, or broken endpoint can take that away.
 
 ---
 
-## 📊 Supported Features
-
-| Feature | Status | Notes |
-|---------|--------|-------|
-| Code Analysis | ✅ Working | GPT-4o-mini powered |
-| Email Notifications | ✅ Working | Via SMTP |
-| GitHub Integration | ✅ Working | Read files, create issues |
-| Notion Integration | ⚠️ Beta | Via Composio |
-| Calendar Events | ⚠️ Beta | Via Composio |
-| Slack Messages | ⚠️ Beta | Via Composio |
-| Voice Input | 🚧 Coming Soon | Whisper integration |
-| Voice Output | 🚧 Coming Soon | ElevenLabs TTS |
-| WhatsApp Alerts | 🚧 Coming Soon | Optional feature |
-
----
-
-## 🌟 Innovation Highlights
-
-1. **First AI Coding Mentor in Regional Languages** 🇮🇳
-   - Marathi-English code-switched communication
-   - Culturally relevant examples and explanations
-
-2. **Intelligent Multi-Tool Orchestration**
-   - One command triggers 6+ tools automatically
-   - Reduces context switching time by 80%
-
-3. **Voice-First Interface**
-   - Natural conversations in Hindi/Marathi/English
-   - Accessibility for non-native English speakers
-
-4. **Automated Learning Analytics**
-   - Tracks progress without manual effort
-   - Personalized improvement roadmap
-
----
-
-## 🎯 Impact & Reach
-
-**Target Audience**: 10M+ CS students in India
-
-**Problem Solved**:
-- Reduces learning time by 40%
-- Eliminates language barriers
-- Automates manual coordination tasks
-- Provides instant mentor support 24/7
-
-**Potential Scale**:
-- Tier 2/3 colleges in India
-- Regional language medium students
-- Self-taught programmers
-- Coding bootcamps
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Here's how:
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## 📝 Friction Log
-
-See [friction_log.md](friction_log.md) for development challenges and solutions.
-
-**Key learnings:**
-- Composio API v2 to v3 migration challenges
-- SMTP configuration for Gmail
-- Multi-tool orchestration complexity
-- Marathi-English language model prompting
-
----
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) file for details
-
----
-
-## 👥 Team
-
-**Prathamesh Shinde** - Solo Developer  
-- Role: Full Stack Development, AI Integration, Product Design
-- Contact: prathamps8666@gmail.com
-- GitHub: [@yourusername](https://github.com/yourusername)
-
----
-
-## 🙏 Acknowledgments
-
-- **OpenAI** - GPT-4o-mini API
-- **Composio** - Multi-tool orchestration platform
-- **LangChain** - AI agent framework
-- **OpenRouter** - API gateway for LLMs
-- **Hackathon Organizers** - For the opportunity
-
----
-
-## 📞 Support
-
-Having issues? Here's how to get help:
-
-1. Check [friction_log.md](friction_log.md) for common issues
-2. Open an issue on GitHub
-3. Email: prathamps8666@gmail.com
-
----
-
-## 🚀 Future Roadmap
-
-- [ ] Complete voice interface (Whisper + ElevenLabs)
-- [ ] Add more regional languages (Tamil, Telugu, Bengali)
-- [ ] Mobile app for on-the-go learning
-- [ ] VSCode extension for inline assistance
-- [ ] Collaborative learning features
-- [ ] Gamification and leaderboards
-- [ ] Integration with LeetCode/HackerRank
-
----
-
-<div align="center">
-
-**Made with ❤️ for Indian Students**
-
-
-⭐ Star this repo if you find it helpful!
-
-</div>
+*— Prathamesh Shinde*  
+*Solo Developer, CodeSahayak (Hackathon 2025)*
