@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 98%;
+
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 207 80% 49%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 207 80% 65%;
+
+    --secondary: 220 15% 15%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 220 15% 20%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 243 100% 70%;
+    --accent-foreground: 0 0% 100%;
+    --accent-glow: 243 100% 80%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 15% 18%;
+    --input: 220 15% 15%;
+    --ring: 207 80% 49%;
+
+    --radius: 0.75rem;
+
+    /* Gradient definitions */
+    --gradient-hero: linear-gradient(135deg, hsl(207 80% 25%), hsl(243 100% 30%));
+    --gradient-card: linear-gradient(135deg, hsl(220 15% 10%), hsl(220 15% 15%));
+    --gradient-accent: linear-gradient(135deg, hsl(207 80% 49%), hsl(243 100% 70%));
+    
+    /* Shadows */
+    --shadow-glow: 0 0 40px hsl(207 80% 49% / 0.3);
+    --shadow-accent-glow: 0 0 40px hsl(243 100% 70% / 0.4);
+    --shadow-card: 0 10px 30px -10px hsl(0 0% 0% / 0.5);
+
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
