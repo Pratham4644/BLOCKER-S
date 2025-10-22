@@ -1,4 +1,4 @@
-# 🧩 CodeSahayak – Friction Log  
+# 🧩 CodeSahayak 
 *By Prathamesh Shinde (Solo Developer)*  
 *Hackathon Duration: 3 Days | Goal: ₹1,00,000 Prize + Internship*
 
@@ -240,3 +240,4 @@ And no error log, OAuth failure, or broken endpoint can take that away.
 
 *— Prathamesh Shinde*  
 *Solo Developer, CodeSahayak (Hackathon 2025)*
+
